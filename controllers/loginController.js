@@ -24,6 +24,7 @@ async function login(req, res, next)
 
             if (isValidPassword) {
                 const userObject = {
+                    id: user._id,
                     name: user.name,
                     email: user.email,
                     mobile: user.mobile,
@@ -42,7 +43,7 @@ async function login(req, res, next)
 
                 res.locals.loggedInUser = userObject;
 
-                res.render('inbox');
+                res.redirect("/inbox");
             } else {
                 throw createHttpError("Login failed! Please try again later.");
             }
@@ -50,22 +51,23 @@ async function login(req, res, next)
             throw createHttpError("Login failed! Please try again later.");
         }
     } catch (error) {
-        res.render('index', {
-            data: {
-                username,
+        res.render("index", {
+          data: {
+            username: username,
+          },
+          errors: {
+            common: {
+              msg: error.message,
             },
-            errors: {
-                common: {
-                    msg: error.message,
-                },
-            },
+          },
         });
     }
 }
 
-function logout(req, res, next)
+function logout(req, res)
 {
     res.clearCookie(process.env.COOKIE_NAME);
+    res.send("Logged out successfully.");
 }
 
 module.exports = {

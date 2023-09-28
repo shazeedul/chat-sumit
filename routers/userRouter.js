@@ -10,7 +10,7 @@ const page_title = 'User'
 
 router.get("/", decorateHtmlResponse(page_title), checkLogin, userController.getUsers);
 
-router.post("/", checkLogin, avatarUpload, validators, validationHandler, userController.createUser);
+router.post("/", avatarUpload, validators, validationHandler, userController.createUser);
 
 router.delete("/:id", userController.deleteUser);
 

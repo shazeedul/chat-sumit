@@ -7,8 +7,20 @@ const { redirectLoggedIn } = require('../middlewares/common/checkLogin');
 
 const page_title = 'Login'
 
-router.get('/', decorateHtmlResponse(page_title), redirectLoggedIn, loginController.getLogin)
-router.post('/', validators, validationHandler, loginController.login)
-router.delete('/logout', loginController.logout)
+router.get('/',
+    decorateHtmlResponse(page_title),
+    redirectLoggedIn,
+    loginController.getLogin
+);
+
+router.post('/',
+    validators,
+    validationHandler,
+    loginController.login
+);
+
+router.delete('/logout',
+    loginController.logout
+);
 
 module.exports = router;

@@ -57,28 +57,42 @@
 
         const formData = new FormData(form);
 
-        const response = await fetch("/users", {
-            method: "POST",
-            body: formData,
-        });
-
-        const result = await response.json();
-
-        if (result.errors) {
-            Object.keys(result.errors).forEach((fieldName) => {
-                form[fieldName].classList.add("error");
-                const errorElement = document.querySelector(`.${fieldName}-error`);
-                errorElement.textContent = result.errors[fieldName].msg;
-                errorElement.style.display = "block";
+        try {
+            const response = await fetch("/users", {
+                method: "POST",
+                body: formData,
             });
-        } else {
-            successToast.showToast();
-            closeModal();
-            document.querySelector('p.error').style.display = 'none';
 
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            const result = await response.json();
+
+            if (result.errors) {
+                Object.keys(result.errors).forEach((fieldName) => {
+                    // Ensure the form field exists before accessing its properties
+                    if (form[fieldName]) {
+                        form[fieldName].classList.add("error");
+                        const errorElement = document.querySelector(`.${fieldName}-error`);
+                        if (errorElement) {
+                            errorElement.textContent = result.errors[fieldName].msg;
+                            errorElement.style.display = "block";
+                        }
+                    }
+                });
+            } else {
+                successToast.showToast();
+                closeModal();
+                // Clear any general error message
+                const generalError = document.querySelector('p.error');
+                if (generalError) {
+                    generalError.style.display = 'none';
+                }
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
-    }
+    };
+
 </script>

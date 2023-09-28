@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/toastify.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/toastify.js"></script>
+    <script src="./js/moment.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,14 @@
         <div class="menu-item"><a href="/inbox">Inbox</a></div>
         <div class="menu-item"><a href="/users">Users</a></div>
         <% if (loggedInUser && loggedInUser.name) { %>
-            <div class="menu-item"><a href="#" onclick="logout()">Logout</a></div>
+            <div class="menu-item">
+                <% if (loggedInUser && loggedInUser.avatar) { %>
+                    <img src="./uploads/avatars/<%= loggedInUser.avatar %>" alt="<%= loggedInUser.name %>" />
+                <% } else { %>
+                    <img src="./images/nophoto.png" alt="<%= loggedInUser.name %>" />
+                <% } %>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
         <% } else { %>
             <div class="menu-item"><a href="/">Login</a></div>
         <% } %>
@@ -37,7 +45,7 @@
     
         function logout() {
             fetch("/logout", {
-                method: "POST",
+                method: "DELETE",
             });
             
             logoutToast.showToast();

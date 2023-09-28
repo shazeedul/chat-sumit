@@ -7,9 +7,19 @@ const { notFoundHandle, errorHandle } = require("./middlewares/common/errorHandl
 const loginRouter = require("./routers/loginRouter");
 const userRouter = require("./routers/userRouter");
 const inboxRouter = require("./routers/inboxRouter");
+const moment = require("moment");
+const http = require("http");
 
 const app = express();
+const server = http.createServer(app);
 dotenv.config();
+
+// socket creation
+const io = require("socket.io")(server);
+global.io = io;
+
+// set comment as app locals
+app.locals.moment = moment;
 
 // Connect to DB
 mongoose
