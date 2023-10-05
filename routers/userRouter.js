@@ -15,7 +15,7 @@ router.get(
   "/",
   decorateHtmlResponse(page_title),
   checkLogin,
-  requireRole(["admin"]),
+  requireRole(["user"]),
   userController.getUsers
 );
 

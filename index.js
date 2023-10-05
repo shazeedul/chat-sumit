@@ -3,12 +3,14 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const { notFoundHandle, errorHandle } = require("./middlewares/common/errorHandle");
+const http = require("http");
+const moment = require("moment");
+
 const loginRouter = require("./routers/loginRouter");
 const userRouter = require("./routers/userRouter");
 const inboxRouter = require("./routers/inboxRouter");
-const moment = require("moment");
-const http = require("http");
+
+const { notFoundHandle, errorHandle } = require("./middlewares/common/errorHandle");
 
 const app = express();
 const server = http.createServer(app);
@@ -60,4 +62,4 @@ app.use(errorHandle)
 
 // Listen
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
