@@ -113,7 +113,7 @@ async function getMessages(req, res, next) {
     res.status(500).json({
       errors: {
         common: {
-          msg: "Unknows error occured!",
+          msg: "Unknowns error occurred!",
         },
       },
     });

@@ -43,7 +43,7 @@ async function login(req, res, next)
 
                 res.locals.loggedInUser = userObject;
 
-                res.redirect("/inbox");
+                res.redirect("inbox");
             } else {
                 throw createHttpError("Login failed! Please try again later.");
             }
